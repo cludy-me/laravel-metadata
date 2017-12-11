@@ -1,0 +1,59 @@
+<?php
+
+namespace DummyNamespace;
+
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use CludyMe\MetaData\Concerns\HasAttributes;
+use CludyMe\MetaData\Concerns\HasValidation;
+
+/**
+ * DummyClass meta data model
+ *
+ * @package DummyNamespace
+ *
+ * @property int    $id
+ * @property int    $DummyBelongsToFunction_id
+ * @property string $type
+ * @property string $key
+ * @property string $value
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property-read DummyBelongsToClass $DummyBelongsToFunction
+ */
+class DummyClass extends Model
+{
+    use HasAttributes, HasValidation;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'DummyBelongsToFunction_id', 'key', 'value'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @return array
+     */
+    static public function rules()
+    {
+        return [
+            'DummyBelongsToFunction_id' => 'required|integer',
+            'key'     => 'required|max:255',
+            'value'   => 'required'
+        ];
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function DummyBelongsToFunction()
+    {
+        return $this->belongsTo(DummyBelongsToClass::class);
+    }
+}
